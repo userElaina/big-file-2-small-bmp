@@ -31,7 +31,6 @@ const
 ```
 
 ##### bfOffBits
-$\rm11\sim14,4B$
 ```java
 0x0a   0x0d
 XX XX XX XX
@@ -81,7 +80,6 @@ const short
 像素 `bit` 数,为 `24` 即 `0x18`.
 
 ##### biCompression
-$\rm31\sim34,4B$
 ```java
 0x1e   0x21
 00 00 00 00
@@ -106,21 +104,23 @@ const
 
 #### `24位位图` 模板
 ```java
-42 4D XX XX XX XX 00 00  00 00 36 00 00 00 28 00 
-      [FileSize ]
-00 00 XX XX XX XX XX XX  XX XX 01 00 18 00 00 00 
-      [  Width  ] [  Height  ]
-00 00 XX XX XX XX 00 00  00 00 00 00 00 00 00 00 
-      [ImageSize]
-00 00 00 00 00 00       
+42 4D XX XX  XX XX 00 00  00 00 36 00  00 00 28 00 
+      [ FileSize ]
+00 00 XX XX  XX XX XX XX  XX XX 01 00  18 00 00 00 
+      [  Width   ] [  Height  ]
+00 00 XX XX  XX XX 00 00  00 00 00 00  00 00 00 00 
+      [ImageSize ]
+00 00 00 00  00 00       
 ```
-Total: $\rm54B$
+Total: `54B=0x36B`
 
+#### e.g. `1280x720`
+```java
+Width=1280=0x0500; Height=720=0x02D0;
+ImageSize=1280*720*3=2764800B=0x002A3000;
+FileSize=ImageSize+54=2764854B=2.64MB=0x002A3036;
+```
 
-#### e.g. $1280*720$
-$\rm Width=1280=0x0500,Height=720=0x02D0,$
-$\rm ImageSize=1280*720*3=2764800B=0x002A3000,$
-$\rm FileSize=ImageSize+54=2764854B=2.64MB=0x002A3036.$
 ```java
 42 4D 36 30 2A 00 00 00  00 00 36 00 00 00 28 00 
       [FileSize ]
@@ -131,10 +131,13 @@ $\rm FileSize=ImageSize+54=2764854B=2.64MB=0x002A3036.$
 00 00 00 00 00 00       
 ```
 
-#### e.g. $1920*1080$
-$\rm Width=1920=0x0780,Height=1080=0x0438,$
-$\rm ImageSize=1920*1080*3=6220800B=0x005EEC00,$
-$\rm FileSize=ImageSize+54=6220854B=5.93MB=0x005EEC36.$
+#### e.g. `1920x1080`
+```java
+Width=1920=0x0780;Height=1080=0x0438;
+ImageSize=1920*1080*3=6220800B=0x005EEC00;
+FileSize=ImageSize+54=6220854B=5.93MB=0x005EEC36;
+```
+
 ```java
 42 4D 36 EC 5E 00 00 00  00 00 36 00 00 00 28 00 
       [FileSize ]
@@ -145,10 +148,13 @@ $\rm FileSize=ImageSize+54=6220854B=5.93MB=0x005EEC36.$
 00 00 00 00 00 00       
 ```
 
-#### e.g. $2560*1080$ (choose this)
-$\rm Width=2560=0x0A00,Height=1080=0x0438,$
-$\rm ImageSize=2560*1080*3=8294400B=0x007E9000,$
-$\rm FileSize=ImageSize+54=8294454B=7.91MB=0x007E9036.$
+#### e.g. `2560*1080`
+```java
+Width=2560=0x0A00,Height=1080=0x0438;
+ImageSize=2560*1080*3=8294400B=0x007E9000;
+FileSize=ImageSize+54=8294454B=7.91MB=0x007E9036;
+```
+
 ```java
 42 4D 36 90 7E 00 00 00  00 00 36 00 00 00 28 00 
       [FileSize ]
@@ -166,11 +172,13 @@ b'\x00\x00\x00\x90~\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
 b'\x00\x00\x00\x00\x00\x00'
 ```
 
+#### e.g. `7680x4320`
+```java
+Width=7680=0x1E00,Height=1080=0x10E0;
+ImageSize=7680*4320*3=99532800B=0x05EEC000;
+FileSize=ImageSize+54=99532854B=94.9MB=0x05EEC036;
+```
 
-#### e.g. $7680*4320$
-$\rm Width=7680=0x1E00,Height=1080=0x10E0,$
-$\rm ImageSize=7680*4320*3=99532800B=0x05EEC000,$
-$\rm FileSize=ImageSize+54=99532854B=94.9MB=0x05EEC036.$
 ```java
 42 4D 36 C0 EE 05 00 00  00 00 36 00 00 00 28 00 
       [FileSize ]
@@ -182,7 +190,7 @@ $\rm FileSize=ImageSize+54=99532854B=94.9MB=0x05EEC036.$
 ```
 
 ```py
-head_8k=b'BM6\xc0\xee\x05\x00\x00\x00\x006\x00\x00\x00(\x00'
+b'BM6\xc0\xee\x05\x00\x00\x00\x006\x00\x00\x00(\x00'
 b'\x00\x00\x00\x1e\x00\x00\xe0\x10\x00\x00\x01\x00\x18\x00\x00\x00'
 b'\x00\x00\x00\xc0\xee\x05\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
 b'\x00\x00\x00\x00\x00\x00'
